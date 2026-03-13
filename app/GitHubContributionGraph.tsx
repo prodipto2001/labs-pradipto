@@ -77,7 +77,7 @@ function MonthLabels({
 
   return (
     <div
-      className="mb-3 grid gap-2 text-xs uppercase tracking-[0.2em] text-slate-400"
+      className="mb-3 grid min-w-max gap-2 text-[10px] uppercase tracking-[0.2em] text-slate-400 sm:text-xs"
       style={{ gridTemplateColumns: `repeat(${totalWeeks}, minmax(0, 1fr))` }}
     >
       {monthColumns.map((month) => (
@@ -140,9 +140,9 @@ export default function GitHubContributionGraph({
 
   if (isLoading) {
     return (
-      <div className="rounded-[1.5rem] border border-slate-200 bg-white/90 p-6 shadow-sm">
+      <div className="rounded-[1.5rem] border border-slate-200 bg-white/90 p-5 shadow-sm sm:p-6">
         <div className="mb-4 h-4 w-40 animate-pulse rounded-full bg-slate-200" />
-        <div className="grid grid-cols-12 gap-2">
+        <div className="grid grid-cols-7 gap-2 sm:grid-cols-12">
           {Array.from({ length: 84 }).map((_, index) => (
             <div
               key={index}
@@ -156,7 +156,7 @@ export default function GitHubContributionGraph({
 
   if (!data || !data.ok) {
     return (
-      <div className="rounded-[1.5rem] border border-amber-200 bg-amber-50 p-6 text-slate-700 shadow-sm">
+      <div className="rounded-[1.5rem] border border-amber-200 bg-amber-50 p-5 text-slate-700 shadow-sm sm:p-6">
         <p className="text-sm font-semibold uppercase tracking-[0.24em] text-amber-700">
           GitHub Graph Unavailable
         </p>
@@ -174,18 +174,18 @@ export default function GitHubContributionGraph({
   const totalWeeks = data.weeks.length;
 
   return (
-    <div className="rounded-[1.5rem] border border-slate-200 bg-white/90 p-6 shadow-sm backdrop-blur">
-      <div className="mb-6 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+    <div className="rounded-[1.5rem] border border-slate-200 bg-white/90 p-4 backdrop-blur sm:p-6">
+      <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[var(--color-primary)]">
             Live from GitHub
           </p>
-          <h4 className="text-2xl font-bold text-slate-900">
+          <h4 className="text-xl font-bold text-slate-900 sm:text-2xl">
             {data.totalContributions} contributions in the last year
           </h4>
         </div>
         <a
-          className="text-sm font-medium text-slate-500 underline decoration-slate-300 underline-offset-4 hover:text-[var(--color-primary)]"
+          className="break-all text-sm font-medium text-slate-500 underline decoration-slate-300 underline-offset-4 hover:text-[var(--color-primary)]"
           href={data.profileUrl}
           target="_blank"
           rel="noreferrer"
@@ -194,40 +194,44 @@ export default function GitHubContributionGraph({
         </a>
       </div>
 
-      <MonthLabels months={data.months} totalWeeks={totalWeeks} />
+      <div className="-mx-1 overflow-x-auto px-1 pb-2">
+        <div className="min-w-[42rem]">
+          <MonthLabels months={data.months} totalWeeks={totalWeeks} />
 
-      <div className="flex gap-3">
-        <div className="grid grid-rows-7 gap-1.5 pt-1 text-[11px] uppercase tracking-[0.2em] text-slate-400">
-          <span className="h-2.5" />
-          <span>Mon</span>
-          <span className="h-2.5" />
-          <span>Wed</span>
-          <span className="h-2.5" />
-          <span>Fri</span>
-          <span className="h-2.5" />
-        </div>
+          <div className="flex gap-3">
+            <div className="grid grid-rows-7 gap-1.5 pt-1 text-[11px] uppercase tracking-[0.2em] text-slate-400">
+              <span className="h-2.5" />
+              <span>Mon</span>
+              <span className="h-2.5" />
+              <span>Wed</span>
+              <span className="h-2.5" />
+              <span>Fri</span>
+              <span className="h-2.5" />
+            </div>
 
-        <div
-          className="grid min-w-0 flex-1 gap-1.5"
-          style={{ gridTemplateColumns: `repeat(${totalWeeks}, minmax(0, 1fr))` }}
-        >
-          {data.weeks.map((week) => (
             <div
-              key={week.firstDay}
-              className="grid grid-rows-7 justify-items-center gap-1.5"
+              className="grid min-w-0 flex-1 gap-1.5"
+              style={{ gridTemplateColumns: `repeat(${totalWeeks}, minmax(0, 1fr))` }}
             >
-              {week.contributionDays.map((day) => (
+              {data.weeks.map((week) => (
                 <div
-                  key={day.date}
-                  className="size-2.5 rounded-[2px] ring-1 ring-black/5 transition-transform hover:scale-125"
-                  style={{ backgroundColor: day.color }}
-                  title={`${day.contributionCount} contribution${
-                    day.contributionCount === 1 ? "" : "s"
-                  } on ${formatDate(day.date)}`}
-                />
+                  key={week.firstDay}
+                  className="grid grid-rows-7 justify-items-center gap-1.5"
+                >
+                  {week.contributionDays.map((day) => (
+                    <div
+                      key={day.date}
+                      className="size-2.5 rounded-[2px] ring-1 ring-black/5 transition-transform hover:scale-125"
+                      style={{ backgroundColor: day.color }}
+                      title={`${day.contributionCount} contribution${
+                        day.contributionCount === 1 ? "" : "s"
+                      } on ${formatDate(day.date)}`}
+                    />
+                  ))}
+                </div>
               ))}
             </div>
-          ))}
+          </div>
         </div>
       </div>
 

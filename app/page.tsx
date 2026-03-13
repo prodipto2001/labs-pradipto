@@ -200,7 +200,8 @@ export default async function Home() {
     <div className="paper-texture min-h-screen bg-background text-foreground">
       <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden">
         <div className="flex min-h-screen flex-col">
-          <header className="flex items-center justify-between px-6 py-6 lg:px-20">
+          <header className="px-6 py-5 lg:px-20">
+            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div className="flex items-center gap-3">
               <div className="flex size-10 items-center justify-center rounded-lg border border-[color:rgb(240_108_0_/_0.2)] bg-[color:rgb(240_108_0_/_0.1)]">
                 <Icon name="science" className="size-5 text-[var(--color-primary)]" />
@@ -221,39 +222,52 @@ export default async function Home() {
               </a>
               <DropNoteDialog recipientEmail={contactEmail} />
             </nav>
+            <nav className="flex flex-wrap items-center gap-3 md:hidden">
+              <Link className="rounded-full border border-slate-200 px-3 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-600" href="/archive">
+                Archive
+              </Link>
+              <a className="rounded-full border border-slate-200 px-3 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-600" href="#lab-log">
+                Lab Log
+              </a>
+              <a className="rounded-full border border-slate-200 px-3 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-600" href="#github-graph">
+                Graph
+              </a>
+              <DropNoteDialog recipientEmail={contactEmail} />
+            </nav>
+            </div>
           </header>
 
-          <main className="mx-auto flex-1 w-full max-w-7xl px-6 py-12 lg:px-20">
-            <section className="relative mb-24">
-              <div className="flex flex-col items-center gap-12 lg:flex-row">
+          <main className="mx-auto flex-1 w-full max-w-7xl px-6 py-10 lg:px-20 lg:py-12">
+            <section className="relative mb-20 lg:mb-24">
+              <div className="flex flex-col items-start gap-10 lg:flex-row lg:items-center lg:gap-12">
                 <div className="z-10 flex-1 space-y-6">
                   <div className="inline-block rounded-full border border-[color:rgb(240_108_0_/_0.2)] bg-[color:rgb(240_108_0_/_0.1)] px-3 py-1 text-xs font-bold uppercase tracking-[0.24em] text-[var(--color-primary)]">
                     Currently Testing
                   </div>
-                  <h2 className="max-w-4xl text-5xl leading-[1.1] font-bold tracking-tight text-slate-900 lg:text-7xl">
+                  <h2 className="max-w-4xl text-4xl leading-[1.05] font-bold tracking-tight text-slate-900 sm:text-5xl lg:text-7xl">
                     Labs: A personal workshop by{" "}
                     <span className="font-hand italic text-[var(--color-primary)]">
                       Pradipto
                     </span>
                     .
                   </h2>
-                  <p className="max-w-xl text-xl leading-relaxed text-slate-500">
+                  <p className="max-w-xl text-lg leading-relaxed text-slate-500 sm:text-xl">
                     Where I test my wilder ideas with{" "}
                     <span className="font-bold text-slate-800 underline decoration-[color:rgb(240_108_0_/_0.4)]">
                       Vibecode
                     </span>
                     . A living repository of digital experiments and unfinished thoughts.
                   </p>
-                  <div className="flex gap-4">
-                    <Link className="flex items-center gap-2 rounded-xl bg-slate-900 px-8 py-4 font-bold text-white hover:bg-slate-800" href="/archive">
+                  <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+                    <Link className="flex w-full items-center justify-center gap-2 rounded-xl bg-slate-900 px-6 py-4 font-bold text-white hover:bg-slate-800 sm:w-auto sm:px-8" href="/archive">
                       Browse the Vault
                       <Icon name="arrow-down" className="size-5" />
                     </Link>
                   </div>
                 </div>
 
-                <div className="relative flex-1">
-                  <div className="tilted-right relative aspect-square w-full overflow-hidden rounded-sm border-8 border-white bg-white shadow-xl">
+                <div className="relative w-full flex-1">
+                  <div className="tilted-right relative mx-auto aspect-square w-full max-w-md overflow-hidden rounded-sm border-6 border-white bg-white shadow-xl sm:border-8 lg:max-w-none">
                     <Image
                       fill
                       className="h-full w-full object-cover grayscale-[0.3] duration-700 hover:grayscale-0"
@@ -261,7 +275,7 @@ export default async function Home() {
                       src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-c3cg6x-sE9mXuw8-Qm6Nig8gYqxphmEfwRRJIyTAeuhX3OAQ50_HTbckUoPA-eNdfZFmeanEASdGOc1CgjALe4ngvZzHbSjqcPJ1Mdg159rOiwl0HQavyRG-kBjMBngf0ZTuyD48SUjs-cXxcSlGOE7KeP0BoqZoq2a9kqZoX1Db46zGlEHiY25t0xFPNGT8fZAWpk2sSk7vSdtkdymTEGQpq9WQnVDYY1ogsmkQ_-K-XoexspmPyhmP423uqsLDNdl0ZveM6DXd"
                       sizes="(min-width: 1024px) 40vw, 100vw"
                     />
-                    <div className="font-hand absolute right-4 bottom-4 rounded border border-slate-100 bg-white/90 px-4 py-2 text-xl text-slate-800 backdrop-blur">
+                    <div className="font-hand absolute right-3 bottom-3 rounded border border-slate-100 bg-white/90 px-3 py-1.5 text-lg text-slate-800 backdrop-blur sm:right-4 sm:bottom-4 sm:px-4 sm:py-2 sm:text-xl">
                       &quot;Mid-process chaos&quot;
                     </div>
                   </div>
@@ -270,14 +284,14 @@ export default async function Home() {
               </div>
             </section>
 
-            <section id="archive" className="mb-24 scroll-mt-24">
-              <div className="mb-12 flex items-center justify-between">
+            <section id="archive" className="mb-20 scroll-mt-24 lg:mb-24">
+              <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <h3 className="flex items-center gap-2 text-2xl font-bold">
                   <Icon name="folder" className="size-6 text-[var(--color-primary)]" />
                   Recent Projects
                 </h3>
-                <div className="mx-8 hidden h-px flex-1 bg-slate-200 md:block" />
-                <p className="font-hand text-xl text-slate-400">Latest from GitHub</p>
+                <div className="hidden h-px flex-1 bg-slate-200 md:block" />
+                <p className="font-hand text-lg text-slate-400 sm:text-xl">Latest Vercel deploys</p>
               </div>
 
               {recentProjects.length > 0 ? (
@@ -285,28 +299,38 @@ export default async function Home() {
                   {recentProjects.map((project) => (
                     <article
                       key={project.githubUrl}
-                      className={`${project.tiltClassName} index-card-shadow relative rounded-sm border border-slate-200 bg-[#fffcf7] p-6`}
+                      className={`${project.tiltClassName} index-card-shadow relative rounded-sm border border-slate-200 bg-[#fffcf7] p-5 sm:p-6`}
                     >
                       {project.badge && project.badgeClassName ? (
                         <div className={project.badgeClassName}>{project.badge}</div>
                       ) : null}
                       <div className="relative mb-6 flex aspect-[4/3] w-full items-end overflow-hidden rounded-sm border border-slate-100 bg-[linear-gradient(135deg,#23180f_0%,#4a3422_45%,#f06c00_100%)] p-5">
+                        {project.coverImageUrl ? (
+                          <>
+                            <img
+                              className="absolute inset-0 h-full w-full object-cover"
+                              alt={`${project.title} cover image`}
+                              src={project.coverImageUrl}
+                            />
+                            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(15,23,42,0.08),rgba(15,23,42,0.7))]" />
+                          </>
+                        ) : null}
                         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.24),transparent_36%)]" />
                         <div className="relative z-10">
                           <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.3em] text-white/70">
                             GitHub Repository
                           </p>
-                          <h4 className="max-w-[12rem] text-3xl font-bold text-white">
+                          <h4 className="max-w-[12rem] text-2xl font-bold text-white sm:text-3xl">
                             {project.title}
                           </h4>
                         </div>
                       </div>
-                      <h4 className="mb-2 text-2xl font-bold">{project.title}</h4>
+                      <h4 className="mb-2 text-xl font-bold sm:text-2xl">{project.title}</h4>
                       <p className="mb-6 text-sm leading-relaxed text-slate-500">
                         {project.description}
                       </p>
-                      <div className="flex items-center justify-between border-t border-dashed border-slate-200 pt-4">
-                        <div>
+                      <div className="flex flex-col gap-4 border-t border-dashed border-slate-200 pt-4 sm:flex-row sm:items-center sm:justify-between">
+                        <div className="min-w-0">
                           <span
                             className={`font-hand text-lg ${project.tagClassName ?? "text-[var(--color-primary)]"}`}
                           >
@@ -317,7 +341,7 @@ export default async function Home() {
                           </p>
                         </div>
                         <a
-                          className="rounded-lg border border-slate-300 px-3 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]"
+                          className="inline-flex w-full items-center justify-center rounded-lg border border-slate-300 px-3 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] sm:w-auto"
                           href={project.href}
                           target="_blank"
                           rel="noreferrer"
@@ -330,13 +354,13 @@ export default async function Home() {
                 </div>
               ) : (
                 <div className="index-card-shadow rounded-sm border border-dashed border-slate-300 bg-[#fffcf7] p-8 text-slate-500">
-                  Connect `GITHUB_USERNAME` and a valid `GITHUB_TOKEN` to load recent repositories here.
+                  Connect `GITHUB_USERNAME` and a valid `GITHUB_TOKEN`, then add Vercel deployment URLs to repository homepages to show them here.
                 </div>
               )}
 
             </section>
 
-            <section id="github-graph" className="mb-24 scroll-mt-24">
+            <section id="github-graph" className="mb-20 scroll-mt-24 lg:mb-24">
               <div className="mb-10 grid gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
                 <div>
                   <p className="mb-2 text-xs font-bold uppercase tracking-[0.24em] text-[var(--color-primary)]">
@@ -351,20 +375,20 @@ export default async function Home() {
                 </p>
               </div>
 
-              <div className="mb-8 flex items-center justify-between rounded-[1.5rem] border border-slate-200 bg-white/80 p-6">
+              <div className="mb-8 flex flex-col gap-5 rounded-[1.5rem] border border-slate-200 bg-white/80 p-5 sm:p-6 lg:flex-row lg:items-center lg:justify-between">
                 <div>
                   <p className="text-xs font-bold uppercase tracking-[0.24em] text-slate-400">
                     Current Snapshot
                   </p>
-                  <p className="mt-2 text-3xl font-bold text-slate-900">
-                    {repositories.length} public repositories
+                  <p className="mt-2 text-2xl font-bold text-slate-900 sm:text-3xl">
+                    {repositories.length} repositories
                   </p>
                   <p className="mt-2 text-sm leading-6 text-slate-500">
                     Browse the full archive for every project and live deployment link.
                   </p>
                 </div>
                 <Link
-                  className="inline-flex items-center gap-2 rounded-lg bg-slate-900 px-5 py-3 text-sm font-semibold text-white hover:bg-slate-800"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-slate-900 px-5 py-3 text-sm font-semibold text-white hover:bg-slate-800 sm:w-auto"
                   href="/archive"
                 >
                   Open The Archives
@@ -375,7 +399,7 @@ export default async function Home() {
               <GitHubContributionGraph username={githubUsername} />
             </section>
 
-            <section id="lab-log" className="grid grid-cols-1 items-start gap-12 scroll-mt-24 lg:grid-cols-3">
+            <section id="lab-log" className="grid grid-cols-1 items-start gap-10 scroll-mt-24 lg:grid-cols-3 lg:gap-12">
               <div className="lg:col-span-2">
                 <h3 className="mb-8 flex items-center gap-2 text-2xl font-bold">
                   <Icon name="history" className="size-6 text-[var(--color-primary)]" />
@@ -388,7 +412,7 @@ export default async function Home() {
                         key={`${entry.title}-${entry.date}`}
                         className={`border-l-4 ${entry.borderClassName} bg-white p-6 shadow-sm hover:shadow-md`}
                       >
-                        <div className="mb-2 flex items-start justify-between gap-4">
+                        <div className="mb-2 flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
                           <h5 className="text-lg font-bold">{entry.title}</h5>
                           <span className="text-xs font-bold uppercase text-slate-400">
                             {entry.date}
@@ -399,7 +423,7 @@ export default async function Home() {
                     ))
                   ) : (
                     <article className="border-l-4 border-slate-300 bg-white p-6 shadow-sm">
-                      <div className="mb-2 flex items-start justify-between gap-4">
+                      <div className="mb-2 flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
                         <h5 className="text-lg font-bold">Log Awaiting Sync</h5>
                         <span className="text-xs font-bold uppercase text-slate-400">
                           Pending
@@ -414,7 +438,7 @@ export default async function Home() {
                 </div>
               </div>
 
-              <aside className="relative overflow-hidden rounded-lg border border-[#dfd6c0] bg-[#efeadf] p-8 shadow-inner">
+              <aside className="relative overflow-hidden rounded-lg border border-[#dfd6c0] bg-[#efeadf] p-6 shadow-inner sm:p-8">
                 <div className="absolute top-2 right-2 rotate-12 text-slate-300">
                   <Icon name="pin" className="size-16 opacity-20" />
                 </div>
@@ -447,8 +471,8 @@ export default async function Home() {
             </section>
           </main>
 
-          <footer id="contact" className="mt-20 scroll-mt-24 border-t border-slate-200 px-6 py-12 lg:px-20">
-            <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-8 md:flex-row">
+          <footer id="contact" className="mt-16 scroll-mt-24 border-t border-slate-200 px-6 py-10 lg:mt-20 lg:px-20 lg:py-12">
+            <div className="mx-auto flex max-w-7xl flex-col gap-8 md:flex-row md:items-center md:justify-between">
               <div className="max-w-md">
                 <p className="font-hand mb-2 text-2xl italic text-slate-400">
                   A simple note on the process:
@@ -457,7 +481,7 @@ export default async function Home() {
                   These labs represent the messy, unpolished, and honest exploration of what&apos;s possible when we stop worrying about &quot;production-ready&quot; and start focusing on &quot;human-ready&quot;. Everything here is a work in progress, much like the person who built it.
                 </p>
               </div>
-              <div className="flex items-center gap-6">
+              <div className="flex flex-wrap items-center gap-5 sm:gap-6">
                 <a
                   className="flex size-10 items-center justify-center rounded-full border border-slate-100 bg-white shadow-sm hover:text-[var(--color-primary)]"
                   href="mailto:?subject=Drop%20a%20Note&body=I%20was%20looking%20through%20the%20Labs%20site..."
@@ -472,7 +496,7 @@ export default async function Home() {
                 >
                   <Icon name="share" className="size-5" />
                 </a>
-                <div className="text-right">
+                <div className="text-left sm:text-right">
                   <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-slate-400">
                     Handcrafted in
                   </p>

@@ -11,6 +11,9 @@ export type GitHubRepository = {
   stargazers_count: number;
   created_at: string;
   updated_at: string;
+  owner: {
+    login: string;
+  };
 };
 
 export type ProjectCard = {
@@ -25,6 +28,7 @@ export type ProjectCard = {
   meta: string;
   githubUrl: string;
   liveUrl?: string;
+  coverImageUrl?: string;
 };
 
 export type LabLogEntry = {
@@ -58,6 +62,10 @@ function getGitHubHeaders() {
   return headers;
 }
 
+function hasGitHubToken() {
+  return Boolean(process.env.GITHUB_TOKEN?.trim());
+}
+
 function formatRepoDate(date: string) {
   return new Date(date).toLocaleDateString(undefined, {
     month: "short",
@@ -80,7 +88,72 @@ function normalizeHomepage(homepage: string | null) {
   return /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
 }
 
-export function buildProjectCards(repositories: GitHubRepository[]): ProjectCard[] {
+function isVercelDeploymentUrl(url?: string) {
+  if (!url) {
+    return false;
+  }
+
+  try {
+    const { hostname } = new URL(url);
+    return hostname === "vercel.app" || hostname.endsWith(".vercel.app");
+  } catch {
+    return false;
+  }
+}
+
+const COVER_IMAGE_CANDIDATES = [
+  "public/cover.png",
+  "public/cover.jpg",
+  "public/cover.jpeg",
+  "public/cover.webp",
+  "public/cover.avif",
+  "public/og-image.png",
+  "public/og-image.jpg",
+  "public/og-image.jpeg",
+  "public/og-image.webp",
+] as const;
+
+async function findRepositoryCoverImage(
+  repository: GitHubRepository,
+): Promise<string | undefined> {
+  const headers = getGitHubHeaders();
+
+  for (const path of COVER_IMAGE_CANDIDATES) {
+    const response = await fetch(
+      `https://api.github.com/repos/${repository.owner.login}/${repository.name}/contents/${path}`,
+      {
+        headers,
+        next: { revalidate: 3600 },
+      },
+    );
+
+    if (!response.ok) {
+      if (response.status === 404) {
+        continue;
+      }
+
+      break;
+    }
+
+    const params = new URLSearchParams({
+      owner: repository.owner.login,
+      repo: repository.name,
+      path,
+    });
+
+    return `/api/github-cover?${params.toString()}`;
+  }
+
+  return undefined;
+}
+
+export async function buildProjectCards(
+  repositories: GitHubRepository[],
+): Promise<ProjectCard[]> {
+  const coverImageUrls = await Promise.all(
+    repositories.map((repository) => findRepositoryCoverImage(repository)),
+  );
+
   return repositories.map((repository, index) => {
     let badge = "NEW";
     let badgeClassName =
@@ -126,6 +199,7 @@ export function buildProjectCards(repositories: GitHubRepository[]): ProjectCard
         : `Updated ${formatRepoDate(repository.updated_at)}`,
       githubUrl: repository.html_url,
       liveUrl: normalizeHomepage(repository.homepage),
+      coverImageUrl: coverImageUrls[index],
     };
   });
 }
@@ -136,12 +210,16 @@ export async function getGitHubRepositories(username?: string) {
   }
 
   const headers = getGitHubHeaders();
+  const useAuthenticatedRepoEndpoint = hasGitHubToken();
   const repositories: GitHubRepository[] = [];
   let page = 1;
 
   while (true) {
+    const endpoint = useAuthenticatedRepoEndpoint
+      ? `https://api.github.com/user/repos?affiliation=owner&visibility=all&sort=created&direction=desc&per_page=100&page=${page}`
+      : `https://api.github.com/users/${username}/repos?sort=created&direction=desc&per_page=100&page=${page}`;
     const response = await fetch(
-      `https://api.github.com/users/${username}/repos?sort=created&direction=desc&per_page=100&page=${page}`,
+      endpoint,
       {
         headers,
         next: { revalidate: 3600 },
@@ -153,7 +231,11 @@ export async function getGitHubRepositories(username?: string) {
     }
 
     const batch = (await response.json()) as GitHubRepository[];
-    repositories.push(...batch.filter((repository) => !repository.private));
+    repositories.push(
+      ...batch.filter((repository) =>
+        useAuthenticatedRepoEndpoint ? true : !repository.private,
+      ),
+    );
 
     if (batch.length < 100) {
       break;
@@ -167,7 +249,11 @@ export async function getGitHubRepositories(username?: string) {
 
 export async function getGitHubProjectCards(username?: string) {
   const repositories = await getGitHubRepositories(username);
-  return buildProjectCards(repositories);
+  return await buildProjectCards(
+    repositories.filter((repository) =>
+      isVercelDeploymentUrl(normalizeHomepage(repository.homepage)),
+    ),
+  );
 }
 
 export function buildLabLogEntries(

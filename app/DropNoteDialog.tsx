@@ -84,7 +84,7 @@ export default function DropNoteDialog({
   return (
     <>
       <button
-        className="rounded-lg bg-[var(--color-primary)] px-6 py-2 text-sm font-bold text-white shadow-md hover:opacity-90"
+        className="rounded-lg bg-[var(--color-primary)] px-4 py-2 text-sm font-bold text-white shadow-md hover:opacity-90 sm:px-6"
         type="button"
         onClick={() => {
           setIsOpen(true);
@@ -97,13 +97,13 @@ export default function DropNoteDialog({
 
       {isOpen ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-[rgb(35_24_15_/_0.45)] p-4 backdrop-blur-sm">
-          <div className="w-full max-w-3xl overflow-hidden rounded-[1.5rem] border border-slate-200 bg-[#fffdfa] shadow-2xl">
-            <div className="flex items-center justify-between border-b border-slate-200 bg-white px-6 py-4">
+          <div className="flex max-h-[calc(100vh-2rem)] w-full max-w-3xl flex-col overflow-hidden rounded-[1.5rem] border border-slate-200 bg-[#fffdfa] shadow-2xl">
+            <div className="flex items-start justify-between gap-4 border-b border-slate-200 bg-white px-6 py-4">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.24em] text-[var(--color-primary)]">
                   Compose
                 </p>
-                <h2 className="text-2xl font-bold text-slate-900">
+                <h2 className="text-xl font-bold text-slate-900 sm:text-2xl">
                   Write a note
                 </h2>
               </div>
@@ -117,7 +117,7 @@ export default function DropNoteDialog({
             </div>
 
             {status === "sent" ? (
-              <div className="flex min-h-[28rem] flex-col items-center justify-center bg-[radial-gradient(circle_at_top,rgba(240,108,0,0.16),transparent_40%)] px-6 py-10 text-center">
+              <div className="flex min-h-[24rem] flex-col items-center justify-center overflow-y-auto bg-[radial-gradient(circle_at_top,rgba(240,108,0,0.16),transparent_40%)] px-6 py-10 text-center sm:min-h-[28rem]">
                 <div className="relative mb-6">
                   <div className="absolute inset-0 animate-ping rounded-full bg-[color:rgb(240_108_0_/_0.18)]" />
                   <div className="relative flex size-24 items-center justify-center rounded-full bg-[var(--color-primary)] text-white shadow-lg">
@@ -136,8 +136,8 @@ export default function DropNoteDialog({
                     </svg>
                   </div>
                 </div>
-                <div className="mb-5 text-6xl leading-none animate-bounce">^_^</div>
-                <h3 className="text-3xl font-bold text-slate-900">
+                <div className="mb-5 text-5xl leading-none animate-bounce sm:text-6xl">^_^</div>
+                <h3 className="text-2xl font-bold text-slate-900 sm:text-3xl">
                   Note sent to the admin
                 </h3>
                 <p className="mt-3 max-w-md text-sm leading-6 text-slate-500">
@@ -153,7 +153,7 @@ export default function DropNoteDialog({
               </div>
             ) : (
               <>
-                <div className="space-y-4 p-6">
+                <div className="flex-1 space-y-4 overflow-y-auto p-6">
                   <div className="grid gap-4 md:grid-cols-2">
                     <label className="space-y-2">
                       <span className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">
@@ -185,7 +185,7 @@ export default function DropNoteDialog({
                       Message
                     </span>
                     <textarea
-                      className="min-h-72 w-full rounded-2xl border border-slate-200 bg-white px-4 py-4 text-sm leading-6 text-slate-900 outline-none placeholder:text-slate-400 focus:border-[var(--color-primary)]"
+                      className="min-h-56 w-full rounded-2xl border border-slate-200 bg-white px-4 py-4 text-sm leading-6 text-slate-900 outline-none placeholder:text-slate-400 focus:border-[var(--color-primary)] sm:min-h-72"
                       placeholder="Write your note here..."
                       value={message}
                       onChange={(event) => setMessage(event.target.value)}
@@ -193,13 +193,13 @@ export default function DropNoteDialog({
                   </label>
                 </div>
 
-                <div className="flex items-center justify-between border-t border-slate-200 bg-white px-6 py-4">
+                <div className="flex flex-col gap-4 border-t border-slate-200 bg-white px-6 py-4 lg:flex-row lg:items-center lg:justify-between">
                   <p className="text-sm text-slate-500">
                     {recipientEmail
                       ? "Send delivers this note directly to the admin inbox."
                       : "Set CONTACT_EMAIL in your env file to enable sending."}
                   </p>
-                  <div className="flex items-center gap-3">
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
                     {status === "error" ? (
                       <p className="max-w-xs text-sm text-red-500">{errorMessage}</p>
                     ) : null}

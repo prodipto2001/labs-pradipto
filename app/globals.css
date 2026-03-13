@@ -28,6 +28,7 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-space-grotesk), sans-serif;
+  overflow-x: hidden;
 }
 
 a,
@@ -60,4 +61,11 @@ button {
 
 .font-hand {
   font-family: var(--font-nanum-pen-script), cursive;
+}
+
+@media (max-width: 767px) {
+  .tilted-left,
+  .tilted-right {
+    transform: none;
+  }
 }
